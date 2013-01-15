@@ -1,0 +1,14 @@
+﻿using System.Collections.Generic;
+using Temp;
+
+namespace TravellingSalesmanProblem
+{
+    internal class GenerationState
+    {
+        public int N { get; set; }
+        public double[,] C { get; set; }
+        public double J;
+        public List<Edge> Edges { set; get; }
+        public int[] VertexSet { get; set; }
+    }
+}
