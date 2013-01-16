@@ -32,6 +32,9 @@
             this.buttonGetPath = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonReset = new System.Windows.Forms.Button();
+            this.buttonAddPoints = new System.Windows.Forms.Button();
+            this.numericPoints = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.numericPoints)).BeginInit();
             this.SuspendLayout();
             // 
             // bitmapPanel
@@ -46,9 +49,10 @@
             // 
             // buttonGetPath
             // 
-            this.buttonGetPath.Location = new System.Drawing.Point(897, 12);
+            this.buttonGetPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonGetPath.Location = new System.Drawing.Point(872, 38);
             this.buttonGetPath.Name = "buttonGetPath";
-            this.buttonGetPath.Size = new System.Drawing.Size(75, 23);
+            this.buttonGetPath.Size = new System.Drawing.Size(100, 23);
             this.buttonGetPath.TabIndex = 1;
             this.buttonGetPath.Text = "Get Path";
             this.buttonGetPath.UseVisualStyleBackColor = true;
@@ -56,32 +60,66 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(872, 41);
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Location = new System.Drawing.Point(872, 12);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 2;
             // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(897, 67);
+            this.buttonReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonReset.Location = new System.Drawing.Point(872, 67);
             this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(75, 23);
+            this.buttonReset.Size = new System.Drawing.Size(100, 23);
             this.buttonReset.TabIndex = 3;
             this.buttonReset.Text = "Reset";
             this.buttonReset.UseVisualStyleBackColor = true;
             this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
+            // 
+            // buttonAddPoints
+            // 
+            this.buttonAddPoints.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAddPoints.Location = new System.Drawing.Point(872, 122);
+            this.buttonAddPoints.Name = "buttonAddPoints";
+            this.buttonAddPoints.Size = new System.Drawing.Size(100, 23);
+            this.buttonAddPoints.TabIndex = 4;
+            this.buttonAddPoints.Text = "Add Points";
+            this.buttonAddPoints.UseVisualStyleBackColor = true;
+            this.buttonAddPoints.Click += new System.EventHandler(this.buttonAddPoints_Click);
+            // 
+            // numericPoints
+            // 
+            this.numericPoints.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericPoints.Location = new System.Drawing.Point(872, 96);
+            this.numericPoints.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.numericPoints.Name = "numericPoints";
+            this.numericPoints.Size = new System.Drawing.Size(100, 20);
+            this.numericPoints.TabIndex = 5;
+            this.numericPoints.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 762);
+            this.Controls.Add(this.numericPoints);
+            this.Controls.Add(this.buttonAddPoints);
             this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.buttonGetPath);
             this.Controls.Add(this.bitmapPanel);
             this.Name = "TestForm";
             this.Text = "Test App";
+            ((System.ComponentModel.ISupportInitialize)(this.numericPoints)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,6 +131,8 @@
         private System.Windows.Forms.Button buttonGetPath;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button buttonReset;
+        private System.Windows.Forms.Button buttonAddPoints;
+        private System.Windows.Forms.NumericUpDown numericPoints;
     }
 }
 

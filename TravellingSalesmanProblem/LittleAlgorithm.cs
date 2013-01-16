@@ -38,21 +38,21 @@ namespace TravellingSalesmanProblem
             {
                 var current = queue.Dequeue();
 
-                var state = Process(current, queue);
-
-                if (state != null)
+                if (current.Edges.Count == n - 1)
                 {
-                    var result = GetResult(n, state);
+                    var result = GetResult(n, current);
                     return result;
                 }
+
+                Process(current, queue);
             }
 
             throw new ApplicationException("Path not found");
         }
 
-        private static int[] GetResult(int n, GenerationState current)
+        private static int[] GetResult(int n, GenerationState state)
         {
-            var edges = current.Edges;
+            var edges = state.Edges;
             int[] c = new int[n];
             foreach (var edge in edges)
             {
@@ -87,7 +87,7 @@ namespace TravellingSalesmanProblem
             return result;
         }
 
-        private GenerationState Process(GenerationState state, PriorityQueue<GenerationState> queue)
+        private void Process(GenerationState state, PriorityQueue<GenerationState> queue)
         {
             //state.J = ReductMatrix(state.N, state.C);
 
@@ -113,7 +113,7 @@ namespace TravellingSalesmanProblem
 
             if (state.C[bestI, bestJ] > InfBound)
             {
-                return null;
+                return;
             }
 
             // get state 1
@@ -181,11 +181,8 @@ namespace TravellingSalesmanProblem
 
             queue.Enqueue(stateWithEdge);
             queue.Enqueue(stateWithoutEdge);
-            if (stateWithEdge.Edges.Count == n - 1)
-            {
-                return stateWithEdge;
-            }
-            return null;
+
+            return;
         }
 
         private double GetMinSum(int n, double[,] matrix, int x, int y)

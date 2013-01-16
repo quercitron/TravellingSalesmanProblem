@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -88,6 +87,25 @@ namespace TestWindowsFormsApplication
         {
             m_Points = new List<Point2DReal>();
             m_Bitmap = new Bitmap(m_Width, m_Height);
+            textBox1.Text = m_Points.Count.ToString();
+            bitmapPanel.Refresh();
+        }
+
+        private void buttonAddPoints_Click(object sender, EventArgs e)
+        {
+            var rnd = new Random();
+            for (int i = 0; i < numericPoints.Value; i++)
+            {
+                double x = rnd.NextDouble() * (m_Width - 20) + 10;
+                double y = rnd.NextDouble() * (m_Height - 20) + 10;
+
+                m_Points.Add(new Point2DReal(x, y));
+            }
+            var g = Graphics.FromImage(m_Bitmap);
+            foreach(var point in m_Points)
+            {
+                DrawPoint(point.X, point.Y, g);
+            }
             textBox1.Text = m_Points.Count.ToString();
             bitmapPanel.Refresh();
         }

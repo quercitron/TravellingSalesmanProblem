@@ -50,11 +50,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Edge.cs" />
@@ -63,7 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\SportProgramming\Temp\Temp\Temp.csproj">
+    <ProjectReference Include="..\..\O\Temp\Temp\Temp.csproj">
       <Project>{1240dd55-8353-43c6-b1c4-271028dc3eee}</Project>
       <Name>Temp</Name>
     </ProjectReference>
