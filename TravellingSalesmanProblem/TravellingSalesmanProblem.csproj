@@ -54,8 +54,12 @@
   <ItemGroup>
     <Compile Include="Edge.cs" />
     <Compile Include="GenerationState.cs" />
+    <Compile Include="Greedy2.cs" />
+    <Compile Include="ISalesmanProblemSolver.cs" />
     <Compile Include="LittleAlgorithm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SalesmanProblemBase.cs" />
+    <Compile Include="SimpleGreedy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\O\Temp\Temp\Temp.csproj">

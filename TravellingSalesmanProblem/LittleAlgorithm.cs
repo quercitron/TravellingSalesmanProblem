@@ -5,13 +5,13 @@ using Temp;
 
 namespace TravellingSalesmanProblem
 {
-    public class LittleAlgorithm
+    public class LittleAlgorithm : SalesmanProblemBase
     {
         private readonly double Inf = 2e9;
         private readonly double InfBound = 1e9;
         private readonly double Eps = 1e-2;
 
-        public int[] GetPath(int n, double[,] matrix)
+        public override int[] GetPath(int n, double[,] matrix)
         {
             var baseState = new GenerationState
                 {
@@ -40,7 +40,7 @@ namespace TravellingSalesmanProblem
 
                 if (current.Edges.Count == n - 1)
                 {
-                    var result = GetResult(n, current);
+                    var result = GetResult(n, current.Edges);
                     return result;
                 }
 
@@ -48,43 +48,6 @@ namespace TravellingSalesmanProblem
             }
 
             throw new ApplicationException("Path not found");
-        }
-
-        private static int[] GetResult(int n, GenerationState state)
-        {
-            var edges = state.Edges;
-            int[] c = new int[n];
-            foreach (var edge in edges)
-            {
-                c[edge.From]++;
-                c[edge.To]--;
-            }
-
-            int s = 0;
-            for (int i = 0; i < n; i++)
-            {
-                if (c[i] == 1)
-                {
-                    s = i;
-                    break;
-                }
-            }
-
-            int[] result = new int[n];
-            result[0] = s;
-            for (int i = 0; i < n - 1; i++)
-            {
-                foreach (var edge in edges)
-                {
-                    if (edge.From == s)
-                    {
-                        result[i + 1] = edge.To;
-                        s = edge.To;
-                        break;
-                    }
-                }
-            }
-            return result;
         }
 
         private void Process(GenerationState state, PriorityQueue<GenerationState> queue)

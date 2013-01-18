@@ -1,6 +1,6 @@
 ﻿namespace TravellingSalesmanProblem
 {
-    internal class Edge
+    public class Edge
     {
         public Edge(int @from, int to)
         {

@@ -53,7 +53,8 @@ namespace TestWindowsFormsApplication
                 return;
             }
 
-            var algorithm = new LittleAlgorithm();
+            //var algorithm = new LittleAlgorithm();
+            var algorithm = new Greedy2();
             var n = m_Points.Count;
             var m = new double[n,n];
             for (int i = 0; i < n; i++)
@@ -80,7 +81,7 @@ namespace TestWindowsFormsApplication
 
         private void DrawLine(Point2DReal a, Point2DReal b, Graphics g)
         {
-            g.DrawLine(new Pen(Color.Green), (float) a.X, (float) a.Y, (float) b.X, (float) b.Y);
+            g.DrawLine(new Pen(Color.Green, 2), (float) a.X, (float) a.Y, (float) b.X, (float) b.Y);
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
