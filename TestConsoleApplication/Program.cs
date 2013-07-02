@@ -1,13 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Threading;
 using Temp;
 using TravellingSalesmanProblem;
 
 namespace TestConsoleApplication
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
+        {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
+            using (var reader = File.OpenText(args[0]))
+            {
+                var n = int.Parse(reader.ReadLine());
+                var points = new Point2DReal[n];
+                for (int i = 0; i < n; i++)
+                {
+                    var line = reader.ReadLine().Split();
+                    var x = double.Parse(line[0]);
+                    var y = double.Parse(line[1]);
+                    points[i] = new Point2DReal(x, y);
+                }
+                var matrix = new double[n,n];
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        matrix[i, j] = points[i].Dist(points[j]);
+                    }
+                }
+
+                var path = new LittleAlgorithm().GetPath(n, matrix);
+
+                var ans = points[0].Dist(points[n - 1]);
+                for (int i = 0; i < n - 1; i++)
+                {
+                    ans += points[path[i]].Dist(points[path[i + 1]]);
+                }
+
+                Console.WriteLine("{0} 1", ans);
+                Console.WriteLine(string.Join(" ", path));
+            }
+        }
+
+        private static void SquareTest()
         {
             int n = 8;
             double[,] m = new double[n,n];

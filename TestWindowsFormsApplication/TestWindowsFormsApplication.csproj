@@ -55,6 +55,9 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="Temp">
+      <HintPath>..\Includes\Temp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Form1.cs">
@@ -88,10 +91,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\O\Temp\Temp\Temp.csproj">
-      <Project>{1240dd55-8353-43c6-b1c4-271028dc3eee}</Project>
-      <Name>Temp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TravellingSalesmanProblem\TravellingSalesmanProblem.csproj">
       <Project>{844e65e0-81ad-4246-9415-95d67048557e}</Project>
       <Name>TravellingSalesmanProblem</Name>

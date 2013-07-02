@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Temp;
 using TravellingSalesmanProblem;
@@ -54,7 +50,7 @@ namespace TestWindowsFormsApplication
             }
 
             //var algorithm = new LittleAlgorithm();
-            var algorithm = new Greedy2();
+            var algorithm = new LittleAlgorithm();
             var n = m_Points.Count;
             var m = new double[n,n];
             for (int i = 0; i < n; i++)
