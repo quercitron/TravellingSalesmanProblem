@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Temp;
 using TravellingSalesmanProblem;
@@ -15,15 +18,23 @@ namespace TestWindowsFormsApplication
 
         private int m_Width = 800;
         private int m_Height = 600;
+        private double m_XScale = 1;
+        private double m_XShift = 0;
+        private double m_YScale = 1;
+        private double m_YShift = 0;
 
         private TspAlgo[] _algos = new[]
             {
                 new TspAlgo { Name = "Ant Colony", Solver = new AntColony(), Color = Color.Green, IsActive = true},
-                new TspAlgo { Name = "Little Algo", Solver = new LittleAlgorithm(), Color = Color.Red }
+                new TspAlgo { Name = "Little Algo", Solver = new LittleAlgorithm(), Color = Color.CornflowerBlue },
+                new TspAlgo { Name = "Simple Greedy", Solver = new SimpleGreedy(), Color = Color.Orange },
+                new TspAlgo { Name = "Greedy 2", Solver = new Greedy2(), Color = Color.DarkGoldenrod },
             };
 
         public TestForm()
         {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             InitializeComponent();
             m_Bitmap = new Bitmap(m_Width, m_Height);
             bitmapPanel.Width = m_Width;
@@ -58,9 +69,30 @@ namespace TestWindowsFormsApplication
                 return;
             }
 
-            //var algorithm = new LittleAlgorithm();
-            //var algorithm = new SimpleGreedy();
+            foreach (var algo in _algos)
+            {
+                if (algo.IsActive)
+                {
+                    ApplyAlgo(algo);
+                }
+                else
+                {
+                    algo.Path = null;
+                }
+            }
+
+            RefreshPanel();
+            RefreshDraw();
+        }
+
+        private void ApplyAlgo(TspAlgo algo)
+        {
             var n = m_Points.Count;
+            if (n < 3)
+            {
+                algo.Path = null;
+                return;
+            }
             var m = new double[n,n];
             for (int i = 0; i < n; i++)
             {
@@ -86,15 +118,8 @@ namespace TestWindowsFormsApplication
                     m[i, j] /= avgDist;
                 }
             }
-
-            foreach (var algo in _algos.Where(a => a.IsActive))
-            {
-                algo.Path = algo.Solver.GetPath(n, m);
-                algo.Length = GetLength(n, m, algo.Path);
-            }
-
-            RefreshPanel();
-            RefreshDraw();
+            algo.Path = algo.Solver.GetPath(n, m);
+            algo.Length = GetLength(n, m_Points, algo.Path);
         }
 
         private void RefreshPanel()
@@ -108,11 +133,16 @@ namespace TestWindowsFormsApplication
                 checkbox.CheckedChanged += (s, e) =>
                     {
                         algo.IsActive = checkbox.Checked;
+                        if (algo.Path == null && algo.IsActive)
+                        {
+                            ApplyAlgo(algo);
+                            RefreshPanel();
+                        }
                         RefreshDraw();
                     };
                 panel.Controls.Add(checkbox);
 
-                var lengthLabel = new Label { Text = String.Format("Length: {0}", algo.Length) };
+                var lengthLabel = new Label { Text = String.Format("Length: {0:0.00}", algo.Length) };
                 panel.Controls.Add(lengthLabel);
 
                 solversPanel.Controls.Add(panel);
@@ -124,10 +154,11 @@ namespace TestWindowsFormsApplication
             m_Bitmap = new Bitmap(m_Width, m_Height);
             var g = Graphics.FromImage(m_Bitmap);
 
-            var count = 0;
-            foreach (var result in _algos.Where(a => a.IsActive))
+            var activeAlgos = _algos.Where(a => a.IsActive && a.Path != null);
+            var count = activeAlgos.Count();
+            foreach (var result in activeAlgos)
             {
-                var pen = new Pen(result.Color, 2 * count + 1);
+                var pen = new Pen(result.Color, 3 * count + 1);
                 var n = result.Path.Length;
                 var path = result.Path;
                 for (int i = 0; i < n - 1; i++)
@@ -135,22 +166,27 @@ namespace TestWindowsFormsApplication
                     DrawLine(pen, m_Points[path[i]], m_Points[path[i + 1]], g);
                 }
                 DrawLine(pen, m_Points[path[0]], m_Points[path[n - 1]], g);
-                foreach (var point in m_Points)
-                {
-                    DrawPoint(point.X, point.Y, g);
-                }
-                count++;
+                
+                count--;
             }
+
+            foreach (var point in m_Points)
+            {
+                DrawPoint(point.X, point.Y, g);
+            }
+
+            textBox1.Text = m_Points.Count.ToString();
 
             bitmapPanel.Refresh();
         }
 
-        private static double GetLength(int n, double[,] d, IList<int> path)
+        private double GetLength(int n, IEnumerable<Point2DReal> points, IList<int> path)
         {
-            var length = d[path[n - 1], path[0]];
+            var p = points.Select(point => new Point2DReal((point.X - m_XShift) * m_XScale, (point.Y - m_YShift) * m_YScale)).ToArray();
+            var length = p[path[n - 1]].Dist(p[path[0]]);
             for (int i = 0; i < n - 1; i++)
             {
-                length += d[path[i], path[i + 1]];
+                length += p[path[i]].Dist(p[path[i + 1]]);
             }
             return length;
         }
@@ -185,6 +221,54 @@ namespace TestWindowsFormsApplication
             }
             textBox1.Text = m_Points.Count.ToString();
             bitmapPanel.Refresh();
+        }
+
+        private void buttonUpload_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var path = dialog.FileName;
+                using (var reader = File.OpenText(path))
+                {
+                    var line = reader.ReadLine();
+                    var n = int.Parse(line);
+                    var x = new double[n];
+                    var minx = 1e30;
+                    var maxx = -1e30;
+                    var y = new double[n];
+                    var miny = 1e30;
+                    var maxy = -1e30;
+                    for (int i = 0; i < n; i++)
+                    {
+                        var s = reader.ReadLine().Split();
+                        x[i] = double.Parse(s[0]);
+                        minx = Math.Min(minx, x[i]);
+                        maxx = Math.Max(maxx, x[i]);
+                        y[i] = double.Parse(s[1]);
+                        miny = Math.Min(miny, y[i]);
+                        maxy = Math.Max(maxy, y[i]);
+                    }
+                    m_Points = new List<Point2DReal>();
+                    foreach (var algo in _algos)
+                    {
+                        algo.Path = null;
+                        algo.Length = 0;
+                    }
+                    for (int i = 0; i < n; i++)
+                    {
+                        var nx = (x[i] - minx) / (maxx - minx) * (m_Width - 60) + 30;
+                        var ny = (y[i] - miny) / (maxy - miny) * (m_Height - 60) + 30;
+                        m_Points.Add(new Point2DReal(nx, ny));
+                    }
+                    m_XScale = (maxx - minx) / (m_Width - 60);
+                    m_XShift = 30;
+                    m_YScale = (maxy - miny) / (m_Height - 60);
+                    m_YShift = 30;
+                }
+
+                RefreshDraw();
+            }
         }
     }
 }

@@ -35,6 +35,7 @@
             this.buttonAddPoints = new System.Windows.Forms.Button();
             this.numericPoints = new System.Windows.Forms.NumericUpDown();
             this.solversPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttonUpload = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericPoints)).BeginInit();
             this.SuspendLayout();
             // 
@@ -114,11 +115,23 @@
             this.solversPanel.Size = new System.Drawing.Size(100, 450);
             this.solversPanel.TabIndex = 6;
             // 
+            // buttonUpload
+            // 
+            this.buttonUpload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonUpload.Location = new System.Drawing.Point(872, 727);
+            this.buttonUpload.Name = "buttonUpload";
+            this.buttonUpload.Size = new System.Drawing.Size(100, 23);
+            this.buttonUpload.TabIndex = 7;
+            this.buttonUpload.Text = "Upload";
+            this.buttonUpload.UseVisualStyleBackColor = true;
+            this.buttonUpload.Click += new System.EventHandler(this.buttonUpload_Click);
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 762);
+            this.Controls.Add(this.buttonUpload);
             this.Controls.Add(this.solversPanel);
             this.Controls.Add(this.numericPoints);
             this.Controls.Add(this.buttonAddPoints);
@@ -143,6 +156,7 @@
         private System.Windows.Forms.Button buttonAddPoints;
         private System.Windows.Forms.NumericUpDown numericPoints;
         private System.Windows.Forms.FlowLayoutPanel solversPanel;
+        private System.Windows.Forms.Button buttonUpload;
     }
 }
 

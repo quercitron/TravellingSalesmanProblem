@@ -14,37 +14,52 @@ namespace TestConsoleApplication
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
-            using (var reader = File.OpenText(args[0]))
+            var lines = args[0].Split('\n');
+            var n = int.Parse(lines[0]);
+            var points = new Point2DReal[n];
+            for (int i = 0; i < n; i++)
             {
-                var n = int.Parse(reader.ReadLine());
-                var points = new Point2DReal[n];
-                for (int i = 0; i < n; i++)
-                {
-                    var line = reader.ReadLine().Split();
-                    var x = double.Parse(line[0]);
-                    var y = double.Parse(line[1]);
-                    points[i] = new Point2DReal(x, y);
-                }
-                var matrix = new double[n,n];
-                for (int i = 0; i < n; i++)
-                {
-                    for (int j = 0; j < n; j++)
-                    {
-                        matrix[i, j] = points[i].Dist(points[j]);
-                    }
-                }
-
-                var path = new LittleAlgorithm().GetPath(n, matrix);
-
-                var ans = points[0].Dist(points[n - 1]);
-                for (int i = 0; i < n - 1; i++)
-                {
-                    ans += points[path[i]].Dist(points[path[i + 1]]);
-                }
-
-                Console.WriteLine("{0} 1", ans);
-                Console.WriteLine(string.Join(" ", path));
+                var line = lines[i + 1].Split();
+                var x = double.Parse(line[0]);
+                var y = double.Parse(line[1]);
+                points[i] = new Point2DReal(x, y);
             }
+            var matrix = new double[n,n];
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    matrix[i, j] = points[i].Dist(points[j]);
+                }
+            }
+
+            double avgDist = 0;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    avgDist += matrix[i, j];
+                }
+            }
+            avgDist /= (n * n);
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    matrix[i, j] /= avgDist;
+                }
+            }
+
+            var path = new AntColony().GetPath(n, matrix);
+
+            var ans = points[path[0]].Dist(points[path[n - 1]]);
+            for (int i = 0; i < n - 1; i++)
+            {
+                ans += points[path[i]].Dist(points[path[i + 1]]);
+            }
+
+            Console.WriteLine("{0} 0", ans);
+            Console.WriteLine(string.Join(" ", path));
         }
 
         private static void SquareTest()

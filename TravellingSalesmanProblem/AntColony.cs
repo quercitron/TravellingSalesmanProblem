@@ -6,8 +6,6 @@ namespace TravellingSalesmanProblem
 {
     public class AntColony : ISalesmanProblemSolver
     {
-        private readonly Random Rnd = new Random();
-
         public int[] GetPath(int n, double[,] matrix)
         {
             var vis = new double[n,n];
@@ -19,6 +17,10 @@ namespace TravellingSalesmanProblem
                     if (i != j)
                     {
                         vis[i, j] = 1 / matrix[i, j];
+                    }
+                    else
+                    {
+                        vis[i, j] = 0;
                     }
                 }
             }
@@ -41,7 +43,7 @@ namespace TravellingSalesmanProblem
             var pr = new double[n,n];
 
             var alpha = 1;
-            var beta = 4;
+            var beta = 5;
 
             var rho = 0.5;
 
@@ -49,8 +51,8 @@ namespace TravellingSalesmanProblem
 
             var threadCount = 4;
 
-            var maxSteps = 3000;
-            for (int g = 0; g < maxSteps; g++)
+            var maxSteps = 2000;
+            for (int cycle = 0; cycle < maxSteps; cycle++)
             {
                 for (int i = 0; i < n; i++)
                 {
@@ -90,6 +92,7 @@ namespace TravellingSalesmanProblem
                 }
 
                 double delta;
+                double avgL = 0;
                 for (int k = 0; k < m; k++)
                 {
                     var l = matrix[path[k, n - 1], path[k, 0]];
@@ -97,6 +100,7 @@ namespace TravellingSalesmanProblem
                     {
                         l += matrix[path[k, i], path[k, i + 1]];
                     }
+                    avgL += l;
 
                     if (bestL > l)
                     {
@@ -115,14 +119,24 @@ namespace TravellingSalesmanProblem
                     }
                 }
 
+                /*if (cycle % 1000 == 0)
+                {
+                    Console.WriteLine("{0} {1} {2}", cycle, bestL, avgL / m);
+                }*/
+
+                if (avgL - bestL * m < 1e-10)
+                {
+                    break;
+                }
+
                 // elitist strategy
-                var e = n / 10.0;
+                /*var e = Math.Sqrt(n);
                 delta = Q / bestL * e;
                 trail[solution[n - 1], solution[0]] += delta;
                 for (int i = 0; i < n - 1; i++)
                 {
                     trail[solution[i], solution[i + 1]] += delta;
-                }
+                }*/
             }
 
             return solution;
@@ -130,6 +144,7 @@ namespace TravellingSalesmanProblem
 
         private void RunSearch(int left, int right, int n, double[,] pr, int[,] path)
         {
+            var rnd = new Random();
             var prSum = new double[n];
             for (int k = left; k < right; k++)
             {
@@ -143,7 +158,7 @@ namespace TravellingSalesmanProblem
                     }
                 }
 
-                var st = Rnd.Next(n);
+                var st = k % n; // rnd.Next(n);
                 path[k, 0] = st;
                 tabu[st] = true;
                 for (int i = 0; i < n; i++)
@@ -154,7 +169,15 @@ namespace TravellingSalesmanProblem
                 for (int t = 0; t < n - 1; t++)
                 {
                     var cur = path[k, t];
-                    var r = Rnd.NextDouble() * prSum[cur];
+                    var r = rnd.NextDouble() * prSum[cur];
+                    /*var check = 0.0;
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (!tabu[i])
+                        {
+                            check += pr[cur, i];
+                        }
+                    }*/
                     var next = 0;
                     for (int i = 0; i < n; i++)
                     {
@@ -165,7 +188,6 @@ namespace TravellingSalesmanProblem
                         next = i;
                         if (r <= pr[cur, i])
                         {
-                            next = i;
                             break;
                         }
                         r -= pr[cur, i];
