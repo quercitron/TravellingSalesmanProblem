@@ -34,6 +34,7 @@
             this.buttonReset = new System.Windows.Forms.Button();
             this.buttonAddPoints = new System.Windows.Forms.Button();
             this.numericPoints = new System.Windows.Forms.NumericUpDown();
+            this.solversPanel = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.numericPoints)).BeginInit();
             this.SuspendLayout();
             // 
@@ -106,11 +107,19 @@
             0,
             0});
             // 
+            // solversPanel
+            // 
+            this.solversPanel.Location = new System.Drawing.Point(872, 151);
+            this.solversPanel.Name = "solversPanel";
+            this.solversPanel.Size = new System.Drawing.Size(100, 450);
+            this.solversPanel.TabIndex = 6;
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 762);
+            this.Controls.Add(this.solversPanel);
             this.Controls.Add(this.numericPoints);
             this.Controls.Add(this.buttonAddPoints);
             this.Controls.Add(this.buttonReset);
@@ -133,6 +142,7 @@
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.Button buttonAddPoints;
         private System.Windows.Forms.NumericUpDown numericPoints;
+        private System.Windows.Forms.FlowLayoutPanel solversPanel;
     }
 }
 
