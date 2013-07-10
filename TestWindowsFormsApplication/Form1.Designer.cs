@@ -110,9 +110,9 @@
             // 
             // solversPanel
             // 
-            this.solversPanel.Location = new System.Drawing.Point(872, 151);
+            this.solversPanel.Location = new System.Drawing.Point(838, 151);
             this.solversPanel.Name = "solversPanel";
-            this.solversPanel.Size = new System.Drawing.Size(100, 450);
+            this.solversPanel.Size = new System.Drawing.Size(134, 450);
             this.solversPanel.TabIndex = 6;
             // 
             // buttonUpload

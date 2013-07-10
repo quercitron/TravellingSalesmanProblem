@@ -50,7 +50,7 @@ namespace TestConsoleApplication
                 }
             }
 
-            var path = new AntColony().GetPath(n, matrix);
+            var path = new TabuSearch().GetPath(n, matrix);
 
             var ans = points[path[0]].Dist(points[path[n - 1]]);
             for (int i = 0; i < n - 1; i++)

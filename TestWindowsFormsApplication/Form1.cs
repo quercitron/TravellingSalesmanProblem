@@ -25,10 +25,11 @@ namespace TestWindowsFormsApplication
 
         private TspAlgo[] _algos = new[]
             {
-                new TspAlgo { Name = "Ant Colony", Solver = new AntColony(), Color = Color.Green, IsActive = true},
+                new TspAlgo { Name = "Ant Colony", Solver = new AntColony(), Color = Color.Green},
                 new TspAlgo { Name = "Little Algo", Solver = new LittleAlgorithm(), Color = Color.CornflowerBlue },
                 new TspAlgo { Name = "Simple Greedy", Solver = new SimpleGreedy(), Color = Color.Orange },
                 new TspAlgo { Name = "Greedy 2", Solver = new Greedy2(), Color = Color.DarkGoldenrod },
+                new TspAlgo { Name = "Tabu Search", Solver = new TabuSearch(), Color = Color.Orchid, IsActive = true },
             };
 
         public TestForm()
@@ -127,7 +128,7 @@ namespace TestWindowsFormsApplication
             solversPanel.Controls.Clear();
             foreach (var algo in _algos)
             {
-                var panel = new FlowLayoutPanel();
+                var panel = new FlowLayoutPanel {Height = 50};
 
                 var checkbox = new CheckBox { Text = algo.Name, Checked = algo.IsActive };
                 checkbox.CheckedChanged += (s, e) =>
