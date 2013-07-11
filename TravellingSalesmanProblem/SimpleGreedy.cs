@@ -2,7 +2,7 @@
 {
     public class SimpleGreedy : ISalesmanProblemSolver
     {
-        public int[] GetPath(int n, double[,] matrix)
+        public int[] GetPath(int n, IMeasure measure)
         {
             var result = new int[n];
             result[0] = 0;
@@ -17,10 +17,10 @@
                 {
                     if (!v[i])
                     {
-                        if (next == -1 || bestCost > matrix[prev, i])
+                        if (next == -1 || bestCost > measure[prev, i])
                         {
                             next = i;
-                            bestCost = matrix[prev, i];
+                            bestCost = measure[prev, i];
                         }
                     }
                 }

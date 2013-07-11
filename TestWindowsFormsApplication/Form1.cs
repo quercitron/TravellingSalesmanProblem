@@ -94,7 +94,7 @@ namespace TestWindowsFormsApplication
                 algo.Path = null;
                 return;
             }
-            var m = new double[n,n];
+            /*var m = new double[n,n];
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
@@ -118,8 +118,9 @@ namespace TestWindowsFormsApplication
                 {
                     m[i, j] /= avgDist;
                 }
-            }
-            algo.Path = algo.Solver.GetPath(n, m);
+            }*/
+            var measure = new MatrixMeasureFactory().CreateMatrixMeasure(m_Points);
+            algo.Path = algo.Solver.GetPath(n, measure);
             algo.Length = GetLength(n, m_Points, algo.Path);
         }
 

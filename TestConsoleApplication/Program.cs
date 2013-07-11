@@ -24,7 +24,7 @@ namespace TestConsoleApplication
                 var y = double.Parse(line[1]);
                 points[i] = new Point2DReal(x, y);
             }
-            var matrix = new double[n,n];
+            /*var matrix = new double[n,n];
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
@@ -48,9 +48,11 @@ namespace TestConsoleApplication
                 {
                     matrix[i, j] /= avgDist;
                 }
-            }
+            }*/
 
-            var path = new TabuSearch().GetPath(n, matrix);
+            var measure = new MatrixMeasureFactory().CreateMatrixMeasure(points);
+
+            var path = new TabuSearch().GetPath(n, measure);
 
             var ans = points[path[0]].Dist(points[path[n - 1]]);
             for (int i = 0; i < n - 1; i++)
@@ -97,7 +99,8 @@ namespace TestConsoleApplication
             try
             {
                 var algorithm = new LittleAlgorithm();
-                var path = algorithm.GetPath(n, m);
+                var measure = new MatrixMeasureFactory().CreateMatrixMeasure(points);
+                var path = algorithm.GetPath(n, measure);
                 for (int i = 0; i < n; i++)
                 {
                     Console.Write("{0} ", path[i]);

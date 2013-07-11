@@ -6,7 +6,7 @@ namespace TravellingSalesmanProblem
 {
     public class AntColony : ISalesmanProblemSolver
     {
-        public int[] GetPath(int n, double[,] matrix)
+        public int[] GetPath(int n, IMeasure measure)
         {
             var vis = new double[n,n];
 
@@ -16,7 +16,7 @@ namespace TravellingSalesmanProblem
                 {
                     if (i != j)
                     {
-                        vis[i, j] = 1 / matrix[i, j];
+                        vis[i, j] = 1 / measure[i, j];
                     }
                     else
                     {
@@ -95,10 +95,10 @@ namespace TravellingSalesmanProblem
                 double avgL = 0;
                 for (int k = 0; k < m; k++)
                 {
-                    var l = matrix[path[k, n - 1], path[k, 0]];
+                    var l = measure[path[k, n - 1], path[k, 0]];
                     for (int i = 0; i < n - 1; i++)
                     {
-                        l += matrix[path[k, i], path[k, i + 1]];
+                        l += measure[path[k, i], path[k, i + 1]];
                     }
                     avgL += l;
 

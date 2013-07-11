@@ -2,6 +2,6 @@ namespace TravellingSalesmanProblem
 {
     public interface ISalesmanProblemSolver
     {
-        int[] GetPath(int n, double[,] matrix);
+        int[] GetPath(int n, IMeasure measure);
     }
 }

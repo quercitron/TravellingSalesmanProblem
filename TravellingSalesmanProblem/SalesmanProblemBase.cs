@@ -4,7 +4,7 @@ namespace TravellingSalesmanProblem
 {
     public abstract class SalesmanProblemBase : ISalesmanProblemSolver
     {
-        public abstract int[] GetPath(int n, double[,] matrix);
+        public abstract int[] GetPath(int n, IMeasure measure);
 
         protected static int[] GetResult(int n, List<Edge> edges)
         {

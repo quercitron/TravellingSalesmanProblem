@@ -11,10 +11,10 @@ namespace TravellingSalesmanProblem
 {
     public class TabuSearch : ISalesmanProblemSolver
     {
-        public int[] GetPath(int n, double[,] matrix)
+        public int[] GetPath(int n, IMeasure measure)
         {
             //var p = Permutations.GetRandomPermutation(n);
-            var p = new Greedy2().GetPath(n, matrix);
+            var p = new Greedy2().GetPath(n, measure);
             //p = new[] {1, 3, 2, 0};
             var path = new PathNode[n];
             for (int i = 0; i < n - 1; i++)
@@ -37,7 +37,7 @@ namespace TravellingSalesmanProblem
                 bestPath[count] = t;
                 count++;
 
-                l += matrix[t, path[t].Next];
+                l += measure[t, path[t].Next];
                 t = path[t].Next;
                 if (t == 0)
                 {
@@ -61,7 +61,7 @@ namespace TravellingSalesmanProblem
             var stopwatch = Stopwatch.StartNew();
 
             var maxCycles = 100000;
-            var timelimit = 120;
+            var timelimit = 1;
             for (int cycle = 0; ; cycle++)
             {
                 if (cycle % 10000 == 0)
@@ -95,8 +95,8 @@ namespace TravellingSalesmanProblem
                     xnext = path[x].Next != y ? path[x].Next : x;
                     yprev = path[y].Prev != x ? path[y].Prev : y;
                     ynext = path[y].Next != x ? path[y].Next : y;
-                    var delta = matrix[path[x].Prev, x] + matrix[x, path[x].Next] + matrix[path[y].Prev, y] + matrix[y, path[y].Next] -
-                               (matrix[xprev, y] + matrix[y, xnext] + matrix[yprev, x] + matrix[x, ynext]);
+                    var delta = measure[path[x].Prev, x] + measure[x, path[x].Next] + measure[path[y].Prev, y] + measure[y, path[y].Next] -
+                               (measure[xprev, y] + measure[y, xnext] + measure[yprev, x] + measure[x, ynext]);
 
                     if (l - delta > bestL)
                     {

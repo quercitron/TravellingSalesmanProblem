@@ -6,7 +6,7 @@ namespace TravellingSalesmanProblem
 {
     public class Greedy2 : SalesmanProblemBase
     {
-        public override int[] GetPath(int n, double[,] matrix)
+        public override int[] GetPath(int n, IMeasure measure)
         {
             var edges = new List<Edge>((n * (n - 1)) % 2);
             for (int i = 0; i < n; i++)
@@ -26,7 +26,7 @@ namespace TravellingSalesmanProblem
             var result = new List<Edge>(n - 1);
             var r = new int[n];
 
-            foreach (var edge in edges.OrderBy(a => matrix[a.From, a.To]))
+            foreach (var edge in edges.OrderBy(a => measure[a.From, a.To]))
             {
                 if (r[edge.From] < 2 && r[edge.To] < 2 && set.FindSet(edge.From) != set.FindSet(edge.To))
                 {

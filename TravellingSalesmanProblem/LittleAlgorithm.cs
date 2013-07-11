@@ -11,7 +11,7 @@ namespace TravellingSalesmanProblem
         private readonly double InfBound = 1e9;
         private readonly double Eps = 1e-2;
 
-        public override int[] GetPath(int n, double[,] matrix)
+        public override int[] GetPath(int n, IMeasure measure)
         {
             var baseState = new GenerationState
                 {
@@ -20,7 +20,7 @@ namespace TravellingSalesmanProblem
                     N = n,
                     VertexSet = new int[n]
                 };
-            Array.Copy(matrix, baseState.C, matrix.Length);
+            baseState.C = measure.GetMatrix();
             for (int i = 0; i < n; i++)
             {
                 baseState.C[i, i] = Inf;

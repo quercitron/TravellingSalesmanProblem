@@ -64,8 +64,12 @@
     <Compile Include="Edge.cs" />
     <Compile Include="GenerationState.cs" />
     <Compile Include="Greedy2.cs" />
+    <Compile Include="IMeasure.cs" />
     <Compile Include="ISalesmanProblemSolver.cs" />
     <Compile Include="LittleAlgorithm.cs" />
+    <Compile Include="MatrixMeasure.cs" />
+    <Compile Include="MatrixMeasureFactory.cs" />
+    <Compile Include="PointsMeasure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SalesmanProblemBase.cs" />
     <Compile Include="SimpleGreedy.cs" />
