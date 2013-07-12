@@ -14,6 +14,10 @@ namespace TravellingSalesmanProblem
             int[] bestPath = null;
             var bestLength = 1e30;
 
+            var totalCount = 0;
+
+            var S = new bool[n, n];
+
             while (!timeout)
             {
                 // Generate random path
@@ -31,15 +35,15 @@ namespace TravellingSalesmanProblem
                 path[p[0]].Left = p[n - 1];
                 path[p[n - 1]].Right = p[0];
 
-                var pst = 0;
-                var st = path[0].Left;
+                /*var pst = 0;
+                var st = path[0].Left;*/
 
+                int q = totalCount > 0 ? 1 : 0;
                 while (true)
                 {
-                    var found = false;
-
-                    var i = st;
-                    var inext = path[i].Right;
+                    // init
+                    var i = 0;
+                    var inext = path[i].Left;
                     var ipr = path[i].Next(inext);
 
                     int jpr = 0;
@@ -47,17 +51,36 @@ namespace TravellingSalesmanProblem
                     int jnext = 0;
 
                     int kpr = 0;
-                    int k = -1;
+                    int k = 0;
                     int knext = 0;
-                    int trType = -1;
 
-                    while (true)
+                    int trType = -1;
+                    var found = false;
+
+                    for (int icount = 0; icount < n; icount++)
                     {
-                        jpr = i;
-                        j = path[i].Next(ipr);
-                        jnext = path[j].Next(jpr);
-                        while (j != i)
+                        // iterate
+                        ipr = i;
+                        i = inext;
+                        inext = path[i].Next(ipr);
+
+                        if (q == 1 && S[i, inext])
                         {
+                            continue;
+                        }
+
+                        // init
+                        j = inext;
+                        jnext = i;
+                        jpr = path[j].Next(jnext);
+
+                        for (int jcount = 0; jcount < n - 3; jcount++)
+                        {
+                            // iterate
+                            jpr = j;
+                            j = jnext;
+                            jnext = path[j].Next(jpr);
+
                             cycle++;
                             if (cycle == 10000)
                             {
@@ -71,7 +94,7 @@ namespace TravellingSalesmanProblem
                                 stopwatch.Start();
                             }
 
-                            // run 2-opt
+                            /*// run 2-opt
                             if (inext != j && jnext != i)
                             {
                                 if (measure[i, inext] + measure[j, jnext] > measure[i, j] + measure[inext, jnext])
@@ -79,60 +102,78 @@ namespace TravellingSalesmanProblem
                                     found = true;
                                     break;
                                 }
-                            }
+                            }*/
 
                             // run 3-opt
-                            kpr = j;
-                            k = path[j].Next(jpr);
-                            knext = path[k].Next(kpr);
 
-                            while (k != i)
+                            // init
+                            kpr = jpr;
+                            k = j;
+                            knext = jnext;
+
+                            for (int kcount = 0; kcount < n - 3 - jcount; kcount++)
                             {
-                                // TODO: need more condition?
-                                if (inext != j && jnext != k && knext != i)
+                                // iterate
+                                kpr = k;
+                                k = knext;
+                                knext = path[k].Next(kpr);
+
+                                double d;
+                                if (measure[inext, k] + measure[i, jnext] <= measure[inext, jnext] + measure[i, k])
                                 {
-                                    if (measure[i, inext] + measure[j, jnext] + measure[k, knext] > measure[i, jnext] + measure[j, knext] + measure[k, inext])
+                                    d = measure[inext, k] + measure[i, jnext];
+                                    trType = 0;
+                                }
+                                else
+                                {
+                                    d = measure[inext, jnext] + measure[i, k];
+                                    trType = 1;
+                                }
+
+                                if (d + measure[j, knext] < measure[i, inext] + measure[j, jnext] + measure[k, knext])
+                                {
+                                    found = true;
+                                    break;
+                                }
+
+                                // TODO: need more condition?
+                                /*if (inext != j && jnext != k && knext != i)
+                                {
+                                    if (measure[i, inext] + measure[j, jnext] + measure[k, knext]
+                                        > measure[i, jnext] + measure[j, knext] + measure[k, inext])
                                     {
                                         trType = 0;
                                         found = true;
                                         break;
                                     }
-                                    if (measure[i, inext] + measure[j, jnext] + measure[k, knext] > measure[i, jnext] + measure[j, k] + measure[inext, knext])
+                                    if (measure[i, inext] + measure[j, jnext] + measure[k, knext]
+                                        > measure[i, jnext] + measure[j, k] + measure[inext, knext])
                                     {
                                         trType = 1;
                                         found = true;
                                         break;
                                     }
-                                }
-
-                                // iterate
-                                kpr = k;
-                                k = knext;
-                                knext = path[k].Next(kpr);
+                                }*/
                             }
 
-                            if (found)
+                            /*if (found)
                             {
                                 break;
                             }
-                            k = -1;
+                            k = -1;*/
 
-                            // iterate
-                            jpr = j;
-                            j = jnext;
-                            jnext = path[j].Next(jpr);
+                            if (timeout || found)
+                            {
+                                break;
+                            }
+
+                            /*if (i == st)
+                            {
+                                break;
+                            }*/
                         }
 
                         if (timeout || found)
-                        {
-                            break;
-                        }
-
-                        ipr = i;
-                        i = inext;
-                        inext = path[i].Next(ipr);
-
-                        if (i == st)
                         {
                             break;
                         }
@@ -140,6 +181,11 @@ namespace TravellingSalesmanProblem
 
                     if (!found)
                     {
+                        if (q == 1)
+                        {
+                            q = 0;
+                            continue;
+                        }
                         break;
                     }
 
@@ -165,20 +211,20 @@ namespace TravellingSalesmanProblem
                         }
                         else
                         {
-                            path[i].Change(inext, jnext);
-                            path[j].Change(jnext, k);
-                            path[k].Change(knext, j);
-                            path[inext].Change(i, knext);
-                            path[jnext].Change(j, i);
-                            path[knext].Change(k, inext);
+                            path[i].Change(inext, k);
+                            path[j].Change(jnext, knext);
+                            path[k].Change(knext, i);
+                            path[inext].Change(i, jnext);
+                            path[jnext].Change(j, inext);
+                            path[knext].Change(k, j);
                         }
                     }
 
 
                     // heuristic shift
-                    var sttmp = st;
+                    /*var sttmp = st;
                     st = path[st].Next(pst);
-                    pst = sttmp;
+                    pst = sttmp;*/
                 }
 
                 var tpr = 0;
@@ -194,12 +240,22 @@ namespace TravellingSalesmanProblem
                     tpr = tmp;
                 }
 
+                S[p[0], p[n - 1]] = true;
+                S[p[n - 1], p[0]] = true;
+                for (int i = 0; i < n - 1; i++)
+                {
+                    S[p[i], p[i + 1]] = true;
+                    S[p[i + 1], p[i]] = true;
+                }
+
                 var l = CalcLength(p, measure);
                 if (l < bestLength)
                 {
                     bestLength = l;
                     bestPath = p;
                 }
+
+                totalCount++;
             }
 
             return bestPath;

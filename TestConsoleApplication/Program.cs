@@ -67,7 +67,7 @@ namespace TestConsoleApplication
                 measure = new PointsMeasure(points);
             }
 
-            var path = new Opt2().GetPath(n, measure);
+            var path = new Opt3().GetPath(n, measure);
 
             var ans = points[path[0]].Dist(points[path[n - 1]]);
             for (int i = 0; i < n - 1; i++)
