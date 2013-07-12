@@ -9,7 +9,7 @@ namespace TravellingSalesmanProblem
         {
             var stopwatch = Stopwatch.StartNew();
             var cycle = 0;
-            var timelimit = 290 * 60;
+            var timelimit = RunProperties.RunTimeInSeconds;
             var timeout = false;
             int[] bestPath = null;
             var bestLength = 1e30;
@@ -19,7 +19,7 @@ namespace TravellingSalesmanProblem
                 // Generate random path
                 //var p = new[] {1, 3, 2, 0};
                 var p = Permutations.GetRandomPermutation(n);
-                var path = new Node[n];
+                var path = new UniversalNode[n];
                 for (int i = 0; i < n - 1; i++)
                 {
                     path[p[i]].Right = p[i + 1];
@@ -134,30 +134,6 @@ namespace TravellingSalesmanProblem
             }
 
             return bestPath;
-        }
-    }
-
-    public struct Node
-    {
-        public override string ToString()
-        {
-            return string.Format("Left: {0}, Right: {1}", Left, Right);
-        }
-
-        public int Left { get; set; }
-        public int Right { get; set; }
-
-        public int Next(int prev)
-        {
-            return prev == Left ? Right : Left;
-        }
-
-        public void Change(int i, int j)
-        {
-            if (Left == i)
-                Left = j;
-            else
-                Right = j;
         }
     }
 }

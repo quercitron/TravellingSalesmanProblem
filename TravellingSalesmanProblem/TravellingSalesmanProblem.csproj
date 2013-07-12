@@ -70,12 +70,15 @@
     <Compile Include="MatrixMeasure.cs" />
     <Compile Include="MatrixMeasureFactory.cs" />
     <Compile Include="Opt2.cs" />
+    <Compile Include="Opt3.cs" />
     <Compile Include="PointsMeasure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RunProperties.cs" />
     <Compile Include="SalesmanProblemBase.cs" />
     <Compile Include="SimpleGreedy.cs" />
     <Compile Include="TabuSearch.cs" />
     <Compile Include="TspAlgo.cs" />
+    <Compile Include="UniversalNode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

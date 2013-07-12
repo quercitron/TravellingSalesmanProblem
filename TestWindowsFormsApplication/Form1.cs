@@ -30,7 +30,8 @@ namespace TestWindowsFormsApplication
                 new TspAlgo { Name = "Simple Greedy", Solver = new SimpleGreedy(), Color = Color.Orange },
                 new TspAlgo { Name = "Greedy 2", Solver = new Greedy2(), Color = Color.DarkGoldenrod },
                 new TspAlgo { Name = "Tabu Search", Solver = new TabuSearch(), Color = Color.Orchid },
-                new TspAlgo { Name = "Opt2", Solver = new Opt2(), Color = Color.Silver, IsActive = true },
+                new TspAlgo { Name = "2-opt", Solver = new Opt2(), Color = Color.Silver, IsActive = true},
+                new TspAlgo { Name = "about 3-opt", Solver = new Opt3(), Color = Color.Wheat, IsActive = true },
             };
 
         public TestForm()
