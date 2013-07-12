@@ -6,6 +6,17 @@ namespace TravellingSalesmanProblem
     {
         public abstract int[] GetPath(int n, IMeasure measure);
 
+        protected static double CalcLength(int[] path, IMeasure measure)
+        {
+            var n = path.Length;
+            var length = measure[path[n - 1], path[0]];
+            for (int i = 0; i < n - 1; i++)
+            {
+                length += measure[path[i], path[i + 1]];
+            }
+            return length;
+        }
+
         protected static int[] GetResult(int n, List<Edge> edges)
         {
             int[] c = new int[n];

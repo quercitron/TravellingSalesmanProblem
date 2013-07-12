@@ -6,9 +6,9 @@ namespace TravellingSalesmanProblem
 {
     public class PointsMeasure : IMeasure
     {
-        private readonly List<Point2DReal> _points;
+        private readonly IList<Point2DReal> _points;
 
-        public PointsMeasure(List<Point2DReal> points)
+        public PointsMeasure(IList<Point2DReal> points)
         {
             _points = points;
         }

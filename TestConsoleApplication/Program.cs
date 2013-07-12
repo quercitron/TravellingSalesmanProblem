@@ -14,7 +14,14 @@ namespace TestConsoleApplication
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
-            var lines = args[0].Split('\n');
+            //var lines = args[0].Split('\n');
+            string text;
+            using (var reader = File.OpenText(args[0]))
+            {
+                text = reader.ReadToEnd();
+            }
+            var lines = text.Split('\n');
+
             var n = int.Parse(lines[0]);
             var points = new Point2DReal[n];
             for (int i = 0; i < n; i++)
@@ -50,9 +57,17 @@ namespace TestConsoleApplication
                 }
             }*/
 
-            var measure = new MatrixMeasureFactory().CreateMatrixMeasure(points);
+            IMeasure measure;
+            if (n <= 6000)
+            {
+                measure = new MatrixMeasureFactory().CreateMatrixMeasure(points);
+            }
+            else
+            {
+                measure = new PointsMeasure(points);
+            }
 
-            var path = new TabuSearch().GetPath(n, measure);
+            var path = new Opt2().GetPath(n, measure);
 
             var ans = points[path[0]].Dist(points[path[n - 1]]);
             for (int i = 0; i < n - 1; i++)

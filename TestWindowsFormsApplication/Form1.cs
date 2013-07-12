@@ -29,7 +29,8 @@ namespace TestWindowsFormsApplication
                 new TspAlgo { Name = "Little Algo", Solver = new LittleAlgorithm(), Color = Color.CornflowerBlue },
                 new TspAlgo { Name = "Simple Greedy", Solver = new SimpleGreedy(), Color = Color.Orange },
                 new TspAlgo { Name = "Greedy 2", Solver = new Greedy2(), Color = Color.DarkGoldenrod },
-                new TspAlgo { Name = "Tabu Search", Solver = new TabuSearch(), Color = Color.Orchid, IsActive = true },
+                new TspAlgo { Name = "Tabu Search", Solver = new TabuSearch(), Color = Color.Orchid },
+                new TspAlgo { Name = "Opt2", Solver = new Opt2(), Color = Color.Silver, IsActive = true },
             };
 
         public TestForm()
@@ -119,7 +120,8 @@ namespace TestWindowsFormsApplication
                     m[i, j] /= avgDist;
                 }
             }*/
-            var measure = new MatrixMeasureFactory().CreateMatrixMeasure(m_Points);
+            //var measure = new MatrixMeasureFactory().CreateMatrixMeasure(m_Points);
+            var measure = new PointsMeasure(m_Points);
             algo.Path = algo.Solver.GetPath(n, measure);
             algo.Length = GetLength(n, m_Points, algo.Path);
         }

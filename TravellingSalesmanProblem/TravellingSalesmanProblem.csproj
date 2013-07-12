@@ -69,6 +69,7 @@
     <Compile Include="LittleAlgorithm.cs" />
     <Compile Include="MatrixMeasure.cs" />
     <Compile Include="MatrixMeasureFactory.cs" />
+    <Compile Include="Opt2.cs" />
     <Compile Include="PointsMeasure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SalesmanProblemBase.cs" />
