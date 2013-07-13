@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Temp;
 
 namespace TravellingSalesmanProblem
@@ -15,6 +16,8 @@ namespace TravellingSalesmanProblem
             var bestLength = 1e30;
 
             var totalCount = 0;
+
+            var rnd = new Random();
 
             var S = new bool[n, n];
 
@@ -42,7 +45,7 @@ namespace TravellingSalesmanProblem
                 while (true)
                 {
                     // init
-                    var i = 0;
+                    var i = rnd.Next(n);
                     var inext = path[i].Left;
                     var ipr = path[i].Next(inext);
 
