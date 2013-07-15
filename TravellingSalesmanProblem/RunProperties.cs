@@ -2,6 +2,6 @@
 {
     public static class RunProperties
     {
-        public static int RunTimeInSeconds = 290 * 60;
+        public static int RunTimeInSeconds = 3 * 60;
     }
 }

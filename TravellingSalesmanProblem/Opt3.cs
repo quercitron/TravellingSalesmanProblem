@@ -1,25 +1,58 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using Temp;
 
 namespace TravellingSalesmanProblem
 {
     public class Opt3 : SalesmanProblemBase
     {
+        private int totalCount;
+        private bool[,] S;
+        private int cycle;
+        private bool timeout;
+        private int[] bestPath;
+        private double bestLength;
+        private Stopwatch stopwatch;
+        private int timelimit;
+
+        private readonly object _lockTotalCount = new object();
+        private readonly object _lockUpdateBest = new object();
+        private readonly object _lockStopwatch = new object();
+
+        private readonly int ThreadCount = 3;
+
         public override int[] GetPath(int n, IMeasure measure)
         {
-            var stopwatch = Stopwatch.StartNew();
-            var cycle = 0;
-            var timelimit = RunProperties.RunTimeInSeconds;
-            var timeout = false;
-            int[] bestPath = null;
-            var bestLength = 1e30;
+            stopwatch = Stopwatch.StartNew();
+            timelimit = RunProperties.RunTimeInSeconds;
+            cycle = 0;
+            timeout = false;
+            bestPath = null;
+            bestLength = 1e30;
+            totalCount = 0;
+            S = new bool[n, n];
 
-            var totalCount = 0;
+            var threads = new Thread[ThreadCount];
+            for (int t = 0; t < ThreadCount; t++)
+            {
+                threads[t] = new Thread(() => RunSearch(n, measure));
+            }
+            for (int i = 0; i < ThreadCount; i++)
+            {
+                threads[i].Start();
+            }
+            for (int i = 0; i < ThreadCount; i++)
+            {
+                threads[i].Join();
+            }
 
+            return bestPath;
+        }
+
+        private void RunSearch(int n, IMeasure measure)
+        {
             var rnd = new Random();
-
-            var S = new bool[n, n];
 
             while (!timeout)
             {
@@ -85,16 +118,19 @@ namespace TravellingSalesmanProblem
                             jnext = path[j].Next(jpr);
 
                             cycle++;
-                            if (cycle == 10000)
+                            if (cycle >= ThreadCount * 10000)
                             {
-                                stopwatch.Stop();
-                                if (stopwatch.ElapsedMilliseconds > timelimit * 1000)
+                                lock (_lockStopwatch)
                                 {
-                                    timeout = true;
-                                    break;
+                                    stopwatch.Stop();
+                                    if (stopwatch.ElapsedMilliseconds > timelimit * 1000)
+                                    {
+                                        timeout = true;
+                                        break;
+                                    }
+                                    cycle = 0;
+                                    stopwatch.Start();
                                 }
-                                cycle = 0;
-                                stopwatch.Start();
                             }
 
                             /*// run 2-opt
@@ -252,16 +288,20 @@ namespace TravellingSalesmanProblem
                 }
 
                 var l = CalcLength(p, measure);
-                if (l < bestLength)
+                lock (_lockUpdateBest)
                 {
-                    bestLength = l;
-                    bestPath = p;
+                    if (l < bestLength)
+                    {
+                        bestLength = l;
+                        bestPath = p;
+                    }
                 }
 
-                totalCount++;
+                lock (_lockTotalCount)
+                {
+                    totalCount++;
+                }
             }
-
-            return bestPath;
         }
     }
 }

@@ -52,7 +52,7 @@
             // buttonGetPath
             // 
             this.buttonGetPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonGetPath.Location = new System.Drawing.Point(872, 38);
+            this.buttonGetPath.Location = new System.Drawing.Point(1272, 38);
             this.buttonGetPath.Name = "buttonGetPath";
             this.buttonGetPath.Size = new System.Drawing.Size(100, 23);
             this.buttonGetPath.TabIndex = 1;
@@ -63,7 +63,7 @@
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(872, 12);
+            this.textBox1.Location = new System.Drawing.Point(1272, 12);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 2;
@@ -71,7 +71,7 @@
             // buttonReset
             // 
             this.buttonReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonReset.Location = new System.Drawing.Point(872, 67);
+            this.buttonReset.Location = new System.Drawing.Point(1272, 67);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(100, 23);
             this.buttonReset.TabIndex = 3;
@@ -82,7 +82,7 @@
             // buttonAddPoints
             // 
             this.buttonAddPoints.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddPoints.Location = new System.Drawing.Point(872, 122);
+            this.buttonAddPoints.Location = new System.Drawing.Point(1272, 122);
             this.buttonAddPoints.Name = "buttonAddPoints";
             this.buttonAddPoints.Size = new System.Drawing.Size(100, 23);
             this.buttonAddPoints.TabIndex = 4;
@@ -93,7 +93,7 @@
             // numericPoints
             // 
             this.numericPoints.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericPoints.Location = new System.Drawing.Point(872, 96);
+            this.numericPoints.Location = new System.Drawing.Point(1272, 96);
             this.numericPoints.Maximum = new decimal(new int[] {
             50,
             0,
@@ -110,7 +110,8 @@
             // 
             // solversPanel
             // 
-            this.solversPanel.Location = new System.Drawing.Point(838, 151);
+            this.solversPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.solversPanel.Location = new System.Drawing.Point(1238, 151);
             this.solversPanel.Name = "solversPanel";
             this.solversPanel.Size = new System.Drawing.Size(134, 450);
             this.solversPanel.TabIndex = 6;
@@ -118,7 +119,7 @@
             // buttonUpload
             // 
             this.buttonUpload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUpload.Location = new System.Drawing.Point(872, 727);
+            this.buttonUpload.Location = new System.Drawing.Point(1272, 727);
             this.buttonUpload.Name = "buttonUpload";
             this.buttonUpload.Size = new System.Drawing.Size(100, 23);
             this.buttonUpload.TabIndex = 7;
@@ -130,7 +131,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 762);
+            this.ClientSize = new System.Drawing.Size(1384, 962);
             this.Controls.Add(this.buttonUpload);
             this.Controls.Add(this.solversPanel);
             this.Controls.Add(this.numericPoints);
@@ -141,6 +142,7 @@
             this.Controls.Add(this.bitmapPanel);
             this.Name = "TestForm";
             this.Text = "Test App";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.numericPoints)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

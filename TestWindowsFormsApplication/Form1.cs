@@ -16,8 +16,8 @@ namespace TestWindowsFormsApplication
         private Bitmap m_Bitmap;
         private List<Point2DReal> m_Points = new List<Point2DReal>();
 
-        private int m_Width = 800;
-        private int m_Height = 600;
+        private int m_Width = 1200;
+        private int m_Height = 900;
         private double m_XScale = 1;
         private double m_XShift = 0;
         private double m_YScale = 1;
@@ -147,7 +147,7 @@ namespace TestWindowsFormsApplication
                     };
                 panel.Controls.Add(checkbox);
 
-                var lengthLabel = new Label { Text = String.Format("Length: {0:0.00}", algo.Length) };
+                var lengthLabel = new Label { Width = 160, Text = String.Format("Length: {0:0.00}", algo.Length) };
                 panel.Controls.Add(lengthLabel);
 
                 solversPanel.Controls.Add(panel);
