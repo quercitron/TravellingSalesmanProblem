@@ -25,7 +25,7 @@ namespace TravellingSalesmanProblem
         public override int[] GetPath(int n, IMeasure measure)
         {
             stopwatch = Stopwatch.StartNew();
-            timelimit = RunProperties.RunTimeInSeconds;
+            timelimit = (int)(RunProperties.RunTimeInSeconds * 1000);
             cycle = 0;
             timeout = false;
             bestPath = null;
@@ -123,7 +123,7 @@ namespace TravellingSalesmanProblem
                                 lock (_lockStopwatch)
                                 {
                                     stopwatch.Stop();
-                                    if (stopwatch.ElapsedMilliseconds > timelimit * 1000)
+                                    if (stopwatch.ElapsedMilliseconds > timelimit)
                                     {
                                         timeout = true;
                                         break;
