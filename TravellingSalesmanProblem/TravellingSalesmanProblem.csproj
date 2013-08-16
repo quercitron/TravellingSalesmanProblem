@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AntColony.cs" />
+    <Compile Include="CormenHeuristic.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="GenerationState.cs" />
     <Compile Include="Greedy2.cs" />
